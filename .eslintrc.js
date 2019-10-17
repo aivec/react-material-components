@@ -33,6 +33,6 @@ module.exports = {
     ],
   },
   settings: {
-    'import/resolver': 'webpack',
+    'import/resolver': { webpack: { extensions: ['.js', '.jsx'] } },
   },
 }

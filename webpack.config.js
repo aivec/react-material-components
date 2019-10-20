@@ -32,16 +32,15 @@ module.exports = {
       },
     },
     {
-      'react-dom': {
-        root: 'ReactDOM',
-        commonjs2: './react-dom',
-        commonjs: ['./react-dom'],
-        amd: 'react-dom',
+      'styled-components': {
+        commonjs: 'styled-components',
+        commonjs2: 'styled-components',
+        amd: 'styled-components',
       },
     },
     '@material-ui/core',
-    /@material-ui\/core\/.*/,
+    /^@material-ui\/core\/.*/,
     '@material-ui/icons',
-    /@material-ui\/icons\/.*/,
+    /^@material-ui\/icons\/.*/,
   ],
 }

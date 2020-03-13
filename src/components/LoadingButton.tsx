@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const ButtonContainer = styled.div`
   position: relative;
 `;
+
 const Progress = styled(CircularProgress)`
   position: absolute;
   top: 50%;
@@ -33,14 +34,22 @@ const LoadingButton = ({
     color = 'primary',
     disabled = false,
     onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {},
+    ...other
   },
   loading = false,
   buttonText = '',
 }: LoadingButtonProps): JSX.Element => {
   return (
     <ButtonContainer>
-      {/* eslint-disable-next-line */}
-      <Button onClick={onClick} size={size} variant={variant} color={color} disabled={disabled}>
+      {/* eslint-disable react/jsx-props-no-spreading */}
+      <Button
+        onClick={onClick}
+        size={size}
+        variant={variant}
+        color={color}
+        disabled={disabled}
+        {...other}
+      >
         {buttonText}
       </Button>
       {loading && <Progress size={22} />}

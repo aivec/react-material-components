@@ -1,6 +1,6 @@
 {
   "name": "@aivec/react-material-components",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "React material-ui components for streamlined UI development",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -15,6 +15,7 @@
     "type-check:watch": "npm run type-check -- --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
+    "stylelint": "stylelint './src/**/*.tsx'",
     "format": "prettier -c src/**/*.tsx",
     "format:fix": "prettier --write src/**/*.tsx",
     "build:types": "tsc --emitDeclarationOnly",
@@ -79,6 +80,15 @@
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript": "^3.8.3",
     "webpack-cli": "^3.3.11"
+  },
+  "stylelint": {
+    "processors": [
+      "stylelint-processor-styled-components"
+    ],
+    "extends": [
+      "stylelint-config-recommended",
+      "stylelint-config-styled-components"
+    ]
   },
   "prettier": {
     "printWidth": 100,

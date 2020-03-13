@@ -59,11 +59,6 @@ module.exports = {
         amd: 'styled-components',
       },
     },
-    {
-      'react-dom': {
-        commonjs: 'react-dom',
-      },
-    },
     '@material-ui/core',
     /^@material-ui\/core\/.*/,
     '@material-ui/icons',

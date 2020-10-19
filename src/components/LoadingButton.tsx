@@ -38,23 +38,21 @@ const LoadingButton = ({
   },
   loading = false,
   buttonText = '',
-}: LoadingButtonProps): JSX.Element => {
-  return (
-    <ButtonContainer>
-      {/* eslint-disable react/jsx-props-no-spreading */}
-      <Button
-        onClick={onClick}
-        size={size}
-        variant={variant}
-        color={color}
-        disabled={disabled}
-        {...other}
-      >
-        {buttonText}
-      </Button>
-      {loading && <Progress size={22} />}
-    </ButtonContainer>
-  );
-};
+}: LoadingButtonProps): JSX.Element => (
+  <ButtonContainer>
+    {/* eslint-disable react/jsx-props-no-spreading */}
+    <Button
+      onClick={onClick}
+      size={size}
+      variant={variant}
+      color={color}
+      disabled={disabled}
+      {...other}
+    >
+      {buttonText}
+    </Button>
+    {loading && <Progress size={22} />}
+  </ButtonContainer>
+);
 
 export default LoadingButton;

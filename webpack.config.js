@@ -1,14 +1,17 @@
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
+
 module.exports = {
-  mode: 'production',
+  mode,
+  devtool: mode === 'development' && 'source-map',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'index.js',
     library: 'aivecReactMaterialComponents',
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
   },
   resolve: {
     alias: {
@@ -63,6 +66,7 @@ module.exports = {
         commonjs: 'styled-components',
         commonjs2: 'styled-components',
         amd: 'styled-components',
+        root: 'styled-components',
       },
     },
     '@material-ui/core',

@@ -1,5 +1,4 @@
-export { default as Snackbar } from './Snackbar';
-export * from './Snackbar';
+import Snackbar from './Snackbar';
+import LoadingButton from './LoadingButton';
 
-export { default as LoadingButton } from './LoadingButton';
-export * from './LoadingButton';
+export { Snackbar, LoadingButton };

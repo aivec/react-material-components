@@ -1,6 +1,6 @@
 {
   "name": "@aivec/react-material-components",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React material-ui components for streamlined UI development",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -20,9 +20,9 @@
     "stylelint": "stylelint './src/**/*.tsx'",
     "format": "prettier -c src/**/*.tsx",
     "format:fix": "prettier --write src/**/*.tsx",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:types": "rm -rf dist/types && tsc --emitDeclarationOnly",
     "build:dev": "export NODE_ENV=development && webpack",
-    "build": "export NODE_ENV=production && webpack"
+    "build": "npm run build:types && export NODE_ENV=production && webpack"
   },
   "repository": {
     "type": "git",

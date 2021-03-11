@@ -7,7 +7,7 @@ const ButtonContainer = styled.div`
   position: relative;
 `;
 
-const Progress = styled(CircularProgress)`
+export const Progress = styled(CircularProgress)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -15,7 +15,7 @@ const Progress = styled(CircularProgress)`
   margin-left: -11px;
 `;
 
-interface LoadingButtonProps {
+export interface LoadingButtonProps {
   buttonProps: {
     size?: 'small' | 'medium' | 'large';
     variant?: 'text' | 'contained' | 'outlined';

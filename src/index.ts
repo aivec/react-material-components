@@ -1,4 +1,5 @@
-import Snackbar from './components/Snackbar';
-import LoadingButton from './components/LoadingButton';
+export { default as Snackbar } from './Snackbar';
+export * from './Snackbar';
 
-export { Snackbar, LoadingButton };
+export { default as LoadingButton } from './LoadingButton';
+export * from './LoadingButton';

@@ -6,31 +6,58 @@ import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import { amber, green } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar, { SnackbarCloseReason, SnackbarProps } from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
 
-const variantIcon = {
-  success: CheckCircleIcon,
+const iconMap = {
+  info: InfoIcon,
   warning: WarningIcon,
   error: ErrorIcon,
-  info: InfoIcon,
+  success: CheckCircleIcon,
 };
 
-const useStyles1 = makeStyles(theme => ({
+const variantIcon = {
+  success: {
+    icon: CheckCircleIcon,
+    color: undefined,
+  },
+  warning: {
+    icon: WarningIcon,
+    color: amber[300],
+  },
+  error: {
+    icon: ErrorIcon,
+    color: undefined,
+  },
+  info: {
+    icon: InfoIcon,
+    color: undefined,
+  },
+  theme: {
+    icon: null,
+    color: undefined,
+  },
+  default: {
+    icon: null,
+    color: undefined,
+  },
+};
+
+const useStyles = makeStyles(theme => ({
   success: {
     backgroundColor: green[600],
   },
   error: {
     backgroundColor: theme.palette.error.dark,
   },
-  info: {
+  theme: {
     backgroundColor: theme.palette.primary.main,
   },
-  warning: {
-    backgroundColor: amber[700],
-  },
+  warning: {},
+  info: {},
+  default: {},
   icon: {
     fontSize: 20,
   },
@@ -42,101 +69,168 @@ const useStyles1 = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-}));
-
-interface SnackbarProps {
-  className: string;
-  message: string;
-  onClose: (event: React.SyntheticEvent<any>) => void;
-  variant: 'error' | 'info' | 'success' | 'warning';
-}
-
-function MySnackbarContentWrapper({
-  className = '',
-  message = '',
-  onClose = (event: React.SyntheticEvent<any>): void => {},
-  variant,
-  ...other
-}: SnackbarProps): JSX.Element {
-  const classes = useStyles1({});
-  const Icon = variantIcon[variant];
-
-  return (
-    <SnackbarContent
-      className={clsx(classes[variant], className)}
-      aria-describedby="client-snackbar"
-      message={
-        <span id="client-snackbar" className={classes.message}>
-          <Icon className={clsx(classes.icon, classes.iconVariant)} />
-          {message}
-        </span>
-      }
-      action={[
-        <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
-          <CloseIcon className={classes.icon} />
-        </IconButton>,
-      ]}
-      /* eslint-disable-next-line */
-      {...other}
-    />
-  );
-}
-
-const useStyles2 = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1),
   },
 }));
 
-interface CustomizedSnackbarProps {
-  vertical?: 'bottom' | 'top';
-  horizontal?: 'left' | 'right' | 'center';
-  open: boolean;
-  message?: string;
-  closeSnackbar?: (event: React.SyntheticEvent<any>, reason: string) => void;
-  variant: 'error' | 'info' | 'success' | 'warning';
+export interface IconProps {
+  /**
+   * Specifies which type of icon to display.
+   */
+  icon: 'success' | 'warning' | 'error' | 'info';
+  /**
+   * Sets the icons color.
+   */
+  color?: string;
 }
 
-function CustomizedSnackbar({
-  closeSnackbar = (event: React.SyntheticEvent<any>, reason: string): void => {},
-  open,
-  variant,
-  message,
-  vertical,
-  horizontal,
-}: CustomizedSnackbarProps): JSX.Element {
-  const classes = useStyles2({});
+export interface CustomSnackbarProps extends SnackbarProps {
+  /**
+   * Specifies the type of snackbar to show.
+   */
+  type?: 'error' | 'info' | 'success' | 'warning' | 'theme' | 'default';
+  /**
+   * Sets the snackbar background color.
+   *
+   * Only applied if `type` is not specified (undefined).
+   */
+  backgroundColor?: string;
+  /**
+   * Sets the snackbar message text color.
+   *
+   * Only applied if `type` is not specified (undefined).
+   */
+  textColor?: string;
+  /**
+   * Sets the snackbar close icon button color.
+   *
+   * Only applied if `type` is not specified (undefined).
+   */
+  closeIconColor?: string;
+  /**
+   * Sets the icon displayed left of the snackbar message.
+   *
+   * Only applied if `type` is not specified (undefined).
+   */
+  icon?: IconProps;
+}
 
-  const handleClose = (event: React.SyntheticEvent<any>, reason: string): void => {
+/**
+ * This component is an extension of material-ui's [Snackbar](https://material-ui.com/components/snackbars/)
+ * with sensible defaults for common types of snackbar states, such as `warning`, `info`, `error`, and `success`.
+ *
+ * Besides the `type` property and a few other addons, this component takes the same props as material-ui's implementation.
+ */
+function CustomSnackbar({
+  onClose = (): void => {},
+  anchorOrigin = {
+    vertical: 'bottom',
+    horizontal: 'center',
+  },
+  autoHideDuration = 6000,
+  message,
+  type,
+  textColor,
+  closeIconColor,
+  backgroundColor,
+  icon,
+  ...other
+}: CustomSnackbarProps): JSX.Element {
+  const classes = useStyles({});
+
+  const handleClose = (event: React.SyntheticEvent<any>, reason: SnackbarCloseReason): void => {
     if (reason === 'clickaway') {
       return;
     }
 
-    closeSnackbar(event, reason);
+    onClose(event, reason);
   };
 
   const handleIconClick = (event: React.SyntheticEvent<any>): void => {
-    closeSnackbar(event, 'somereason');
+    onClose(event, 'clickaway');
   };
+
+  let CustomSnackbarContent;
+  let Icon = null;
+  let IconHtml = null;
+  if (type) {
+    Icon = variantIcon[type].icon;
+    if (Icon) {
+      if (variantIcon[type].color) {
+        IconHtml = (
+          <Icon
+            className={clsx(classes.icon, classes.iconVariant)}
+            style={{ color: variantIcon[type].color }}
+          />
+        );
+      } else {
+        IconHtml = <Icon className={clsx(classes.icon, classes.iconVariant)} />;
+      }
+    }
+    CustomSnackbarContent = (
+      <SnackbarContent
+        className={clsx(classes[type], classes.margin)}
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            {IconHtml}
+            {message}
+          </span>
+        }
+        action={
+          <IconButton key="close" aria-label="close" color="inherit" onClick={handleIconClick}>
+            <CloseIcon className={classes.icon} />
+          </IconButton>
+        }
+      />
+    );
+  } else if (backgroundColor || icon) {
+    if (icon) {
+      Icon = iconMap[icon.icon];
+      const style = icon.color ? { color: icon.color } : undefined;
+      IconHtml = <Icon className={clsx(classes.icon, classes.iconVariant)} style={style} />;
+    }
+    const contentStyle: { backgroundColor?: string; color?: string } = {};
+    if (backgroundColor) {
+      contentStyle.backgroundColor = backgroundColor;
+    }
+    if (textColor) {
+      contentStyle.color = textColor;
+    }
+    const closeIconStyle = closeIconColor ? { color: closeIconColor } : undefined;
+    CustomSnackbarContent = (
+      <SnackbarContent
+        className={clsx(classes.margin)}
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            {IconHtml}
+            {message}
+          </span>
+        }
+        action={
+          <IconButton key="close" aria-label="close" color="inherit" onClick={handleIconClick}>
+            <CloseIcon className={classes.icon} style={closeIconStyle} />
+          </IconButton>
+        }
+        style={contentStyle}
+      />
+    );
+  }
 
   return (
     <Snackbar
-      anchorOrigin={{
-        vertical: vertical || 'bottom',
-        horizontal: horizontal || 'left',
-      }}
-      open={open}
-      autoHideDuration={6000}
+      anchorOrigin={anchorOrigin}
+      autoHideDuration={autoHideDuration}
       onClose={handleClose}
+      message={message}
+      /* eslint-disable-next-line */
+      {...other}
     >
-      <MySnackbarContentWrapper
-        onClose={handleIconClick}
-        className={classes.margin}
-        variant={variant || 'success'}
-        message={message || ''}
-      />
+      {CustomSnackbarContent}
     </Snackbar>
   );
 }
 
-export default CustomizedSnackbar;
+export default CustomSnackbar;

@@ -1,16 +1,16 @@
 {
   "name": "@aivec/react-material-components",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "React material-ui components for streamlined UI development",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "peerDependencies": {
-    "react": ">= 16.9.0",
-    "react-dom": ">= 16.8.0",
     "@material-ui/core": ">= 4.4.2",
     "@material-ui/icons": ">= 4.4.1",
-    "styled-components": ">= 5",
-    "clsx": ">= 1.1.1"
+    "clsx": ">= 1.1.1",
+    "react": ">= 16.9.0",
+    "react-dom": ">= 16.8.0",
+    "styled-components": ">= 5"
   },
   "scripts": {
     "type-check": "tsc --noEmit",
@@ -68,14 +68,14 @@
     "eslint-plugin-react": "^7.21.4",
     "eslint-plugin-react-hooks": "^2.5.1",
     "eslint-plugin-tsdoc": "^0.2.7",
-    "file-loader": "^4.3.0",
+    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "prettier": "^1.19.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "styled-components": "^5.2.0",
-    "stylelint": "^10.1.0",
-    "stylelint-config-recommended": "^2.2.0",
+    "stylelint": "^13.12.0",
+    "stylelint-config-recommended": "^4.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript": "^3.9.7",
@@ -126,6 +126,12 @@
           "assignment": false
         }
       ],
+      "react/require-default-props": [
+        1,
+        {
+          "ignoreFunctionalComponents": true
+        }
+      ],
       "tsdoc/syntax": "warn",
       "prettier/prettier": "error"
     },
@@ -134,6 +140,5 @@
         "typescript": {}
       }
     }
-  },
-  "dependencies": {}
+  }
 }

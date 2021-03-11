@@ -33,7 +33,7 @@ const LoadingButton = ({
     variant = 'contained',
     color = 'primary',
     disabled = false,
-    onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {},
+    onClick = (): void => {},
     ...other
   },
   loading = false,

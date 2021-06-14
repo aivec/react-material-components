@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ButtonContainer = styled.div`
@@ -16,13 +16,7 @@ export const Progress = styled(CircularProgress)`
 `;
 
 export interface LoadingButtonProps {
-  buttonProps: {
-    size?: 'small' | 'medium' | 'large';
-    variant?: 'text' | 'contained' | 'outlined';
-    color?: 'inherit' | 'default' | 'primary' | 'secondary';
-    disabled?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  };
+  buttonProps: ButtonProps;
   loading?: boolean;
   buttonText?: string;
 }

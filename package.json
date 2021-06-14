@@ -1,6 +1,6 @@
 {
   "name": "@aivec/react-material-components",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "React material-ui components for streamlined UI development",
   "main": "index.js",
   "types": "index.d.ts",

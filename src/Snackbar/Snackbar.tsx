@@ -1,15 +1,17 @@
 import React from 'react';
 import clsx from 'clsx';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
-import { amber } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar, { SnackbarCloseReason, SnackbarProps } from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
-import { makeStyles } from '@material-ui/core/styles';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
+import { amber } from '@mui/material/colors';
+import IconButton from '@mui/material/IconButton';
+import Snackbar, { SnackbarCloseReason, SnackbarProps } from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
+import WarningIcon from '@mui/icons-material/Warning';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
 
 const iconMap = {
   info: InfoIcon,
@@ -45,32 +47,36 @@ const variantIcon = {
   },
 };
 
-const useStyles = makeStyles(theme => ({
-  success: {},
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-  theme: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  warning: {},
-  info: {},
-  default: {},
-  icon: {
-    fontSize: 20,
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing(1),
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    success: {},
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    },
+    theme: {
+      backgroundColor: theme.palette.primary.main,
+    },
+    warning: {},
+    info: {},
+    default: {},
+    icon: {
+      fontSize: 20,
+    },
+    iconVariant: {
+      opacity: 0.9,
+      marginRight: theme.spacing(1),
+    },
+    message: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }),
+);
+
+const theme = createTheme();
 
 export interface IconProps {
   /**
@@ -218,16 +224,18 @@ function CustomSnackbar({
   }
 
   return (
-    <Snackbar
-      anchorOrigin={anchorOrigin}
-      autoHideDuration={autoHideDuration}
-      onClose={handleClose}
-      message={message}
-      /* eslint-disable-next-line */
-      {...other}
-    >
-      {CustomSnackbarContent}
-    </Snackbar>
+    <ThemeProvider theme={theme}>
+      <Snackbar
+        anchorOrigin={anchorOrigin}
+        autoHideDuration={autoHideDuration}
+        onClose={handleClose}
+        message={message}
+        /* eslint-disable-next-line */
+        {...other}
+      >
+        {CustomSnackbarContent}
+      </Snackbar>
+    </ThemeProvider>
   );
 }
 
